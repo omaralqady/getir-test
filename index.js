@@ -1,15 +1,15 @@
-const config = require('./config');
-const express = require('express');
-const app = express();
+const { connectToDB } = require('./db');
+const { initServer } = require('./server');
 
 
-const HOST = config.get('host');
-const PORT = config.get('port');
+function main() {
 
-app.post('/', (req, res) => {
-    res.json({ msg: 'ok' });
-});
+    connectToDB()
+        .then((dbClient) => (initServer(dbClient)))
+        .catch((err) => {
+            console.error(`Error initializing app: ${err}`);
+            process.exit(1);
+        });
+}
 
-app.listen(PORT, HOST, () => {
-    console.log(`Listening on ${HOST}:${PORT}`);
-});
+main();

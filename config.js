@@ -1,4 +1,5 @@
 const convict = require('convict');
+require('dotenv').config();
 
 const config = convict({
     env: {
@@ -13,7 +14,11 @@ const config = convict({
         format: 'port',
         default: 8080,
         env: 'PORT'
-    }
+    },
+    db_uri: {
+        default: 'mongodb://testuser:password@localhost/testdb',
+        env: 'DB_URI'
+    },
 });
 
 module.exports = config;
