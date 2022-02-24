@@ -27,7 +27,7 @@ const handler = async function (req, res) {
     }
 
     client = await getClient();
-    const dbData = client.db().collection(db_collection).find({ createdAt: { $gte: new Date(req.body.startDate), $lte: new Date(req.body.endDate) } }).limit(10);
+    const dbData = client.db().collection(db_collection).find({ createdAt: { $gte: new Date(req.body.startDate), $lte: new Date(req.body.endDate) } });
     const docs = await dbData.toArray();
 
     const finalRes = docs.reduce((acc, item) => {

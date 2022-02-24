@@ -3,7 +3,6 @@ const { initServer } = require('./server');
 
 
 function main() {
-
     connectToDB()
         .then(() => (initServer()))
         .catch((err) => {
