@@ -5,7 +5,7 @@ const app = express();
 const { handler: countDataHandler } = require('./handlers/countData');
 
 const HOST = config.get('host');
-const PORT = config.get('port');
+const PORT = process.env.PORT || config.get('port');
 
 
 app.use(express.json());
