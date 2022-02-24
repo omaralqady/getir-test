@@ -64,4 +64,7 @@ const prepareData = (docs, minCount, maxCount) => (docs.reduce((acc, item) => {
 
 }, []));
 
-module.exports = handler;
+module.exports = {
+    handler,
+    prepareData
+};

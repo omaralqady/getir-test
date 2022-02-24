@@ -2,7 +2,7 @@ const config = require('./config');
 const express = require('express');
 const app = express();
 
-const countDataHandler = require('./handlers/countData');
+const { handler: countDataHandler } = require('./handlers/countData');
 
 const HOST = config.get('host');
 const PORT = config.get('port');
