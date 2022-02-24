@@ -2,23 +2,22 @@ const config = require('./config');
 const express = require('express');
 const app = express();
 
+const countDataHandler = require('./handlers/countData');
+
 const HOST = config.get('host');
 const PORT = config.get('port');
 
-let client;
 
+app.use(express.json());
 
-app.post('/', (req, res) => {
-    res.json({ msg: 'ok' });
-});
+app.post('/countData', countDataHandler);
 
 app.on('listening', () => {
     console.log(`Listening on ${HOST}:${PORT}`);
 });
 
-async function initServer(dbClient) {
+async function initServer() {
     try {
-        client = dbClient;
         console.log('Starting server');
         await app.listen(PORT, HOST);
     } catch (err) {
