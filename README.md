@@ -6,3 +6,7 @@
 
 ### To run in dev mode (restarting with `nodemon`):
 `npm run dev`
+
+
+
+N.B.: In a normal production app, I would use a proper logging library as opposed to using `console.log`
