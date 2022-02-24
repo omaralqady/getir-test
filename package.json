@@ -6,6 +6,7 @@
   "scripts": {
     "test": "mocha test/**/**",
     "test_integration": "mocha test/integration",
+    "test_unit": "mocha test/unit",
     "start": "node ./index.js",
     "dev": "nodemon ./index.js"
   },
