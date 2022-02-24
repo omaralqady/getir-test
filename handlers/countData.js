@@ -20,7 +20,7 @@ const handler = async function (req, res) {
     const result = schema.validate(req.body, { allowUknown: false });
     if (result.error) {
         console.error('err: ', result.error);
-        return res.json({
+        return res.status(400).json({
             code: 1,
             msg: 'validation_error - Please check that all required fields are present and well formatted'
         });
@@ -30,31 +30,32 @@ const handler = async function (req, res) {
     const dbData = client.db().collection(db_collection).find({ createdAt: { $gte: new Date(req.body.startDate), $lte: new Date(req.body.endDate) } });
     const docs = await dbData.toArray();
 
-    const finalRes = docs.reduce((acc, item) => {
+    const finalRes = prepareData(docs, req.body.minCount, req.body.maxCount);
 
-        let sum = 0;
-        item.counts.forEach((val) => {
-            sum += val;
-        });
-
-        const obj = {
-            createdAt: item.createdAt,
-            key: item.key,
-            totalCount: sum
-        };
-
-        if (sum >= req.body.minCount && sum <= req.body.maxCount) {
-            acc.push(obj);
-        }
-        return acc;
-
-    }, []);
-
-    res.json({
+    return res.json({
         code: 0,
         msg: 'success',
         records: finalRes,
     });
 };
+
+const prepareData = (docs, minCount, maxCount) => (docs.reduce((acc, item) => {
+    let sum = 0;
+    item.counts.forEach((val) => {
+        sum += val;
+    });
+
+    const obj = {
+        createdAt: item.createdAt,
+        key: item.key,
+        totalCount: sum
+    };
+
+    if (sum >= minCount && sum <= maxCount) {
+        acc.push(obj);
+    }
+    return acc;
+
+}, []));
 
 module.exports = handler;
